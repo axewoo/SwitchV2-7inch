@@ -54,12 +54,13 @@ both places below.
    `nvservices!internal_display_vddpn_control` (default 1), which looks like the switch
    for the internal panel's bias rails.
 
-### Shortcut worth checking first
+### Shortcut (confirmed in nvservices 22.5.0)
 
-If nvservices also sends only 0x11 + 0x29 to unknown panel IDs, then a panel whose init
-code is **burned into the driver chip's OTP** at the factory would light up with **no
-software patch**. Many panel vendors do this on request. The stock "second revision"
-panels (0x1020, 0x1030) already work this way in boot.
+A panel whose init code is **burned into its driver chip's OTP** and whose ID reads back as
+vendor **0x40** gets only sleep out (0x11) + display on (0x29) in both boot and nvservices,
+so it needs **no software patch**. Many panel vendors program the OTP and the ID bytes on
+request. An unknown ID is not enough: nvservices then sends the JDI (Himax) sequence. Details
+in [docs/nvservices-22.5.0.md](docs/nvservices-22.5.0.md).
 
 ## Panel candidates (7", 720x1280, MIPI DSI, 4 lanes)
 
