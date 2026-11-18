@@ -45,12 +45,12 @@ unknown):
 
 | Pin | Volts | Continuity to ground (console off) | Role |
 |---|---|---|---|
-| 1 | 0 | beeps | ground |
+| 1 | 0 | beeps | ground on the board side only: no trace on the flex |
 | 2 | 0 | no beep | LED cathode (return into the driver's current sink) |
 | 3 | 16.4 | no beep | LED anode (boost output) |
-| 4 | 0 | beeps | ground |
+| 4 | 0 | beeps | ground, carried on the flex (shield or return) |
 
-The flex itself has 3 traces, so the stock backlight is one anode and one cathode: a single
+The flex carries pins 2, 3 and 4 (3 traces), so the stock backlight is one anode and one cathode: a single
 string, or parallel strings joined on the panel. 16.4 V at about 3.0-3.1 V per white LED means
 about 5 LEDs in series (6 if the current was low), with the series groups possibly in parallel.
 
