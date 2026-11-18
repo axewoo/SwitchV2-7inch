@@ -68,3 +68,11 @@ series), so ~21 V for the Raystar panel is within range. LED current is set by t
 its FB pin; read that resistor to know the stock current. To confirm: check the marking on the
 back side. The small QFN next to the connector (marking roughly "T451 / 118 / AUSV") is not it.
 Source: https://www.tronicsfixforum.com/t/switch-with-no-backlight-no-enable-signal-at-the-ic/8572
+
+## Picture connector: pin count (2026-11-18, from a photo of the flex tail)
+
+The screen's picture flex ends in a gold finger tail that goes into the wide ZIF connector on
+the mainboard (left of the SoC shield). The tail has about 54 fingers, laid out staggered (a
+long and a short pad alternating). Repair shops sell a "Nintendo Switch LCD FPC Connector
+(56 Pin)" as the replacement part, so the count is very likely **56**. The small two-row
+board-to-board socket near the backlight connector is not the picture connector.
