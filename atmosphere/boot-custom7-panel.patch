@@ -1,0 +1,48 @@
+--- a/stratosphere/boot/source/boot_display.cpp	2026-11-18 18:55:15.243827111 +0000
++++ b/stratosphere/boot/source/boot_display.cpp	2026-11-18 18:55:15.262067008 +0000
+@@ -434,6 +434,11 @@
+                     reg::Write(g_dsi_regs + sizeof(u32) * DSI_WR_DATA, 0x2905);
+                     reg::Write(g_dsi_regs + sizeof(u32) * DSI_TRIGGER, DSI_TRIGGER_HOST);
+                     break;
++#if defined(AMS_CUSTOM7_PANEL_ID)
++                case AMS_CUSTOM7_PANEL_ID: /* Aftermarket 7" 720x1280 panel (switch-v2-7inch). */
++                    DO_SLEEP_OR_REGISTER_WRITES(g_dsi_regs, DisplayConfigCustom7SpecificInit01);
++                    break;
++#endif
+                 case 0x1020: /* Innolux second revision screen. */
+                 case 0x1030: /* AUO second revision screen. */
+                 case 0x1040: /* Unknown second revision screen. */
+@@ -593,6 +598,10 @@
+                 reg::Write(g_dsi_regs + sizeof(u32) * DSI_TRIGGER, DSI_TRIGGER_HOST);
+                 os::SleepThread(TimeSpan::FromMilliSeconds(5));
+                 break;
++#if defined(AMS_CUSTOM7_PANEL_ID)
++            case AMS_CUSTOM7_PANEL_ID: /* Aftermarket 7" panel: sleep in is sent below. */
++                break;
++#endif
+             case 0x1040: /* Unknown second revision screens. */
+                 reg::Write(g_dsi_regs + sizeof(u32) * DSI_WR_DATA, 0x439);
+                 reg::Write(g_dsi_regs + sizeof(u32) * DSI_WR_DATA, 0x9483FFB9);
+--- a/stratosphere/boot/source/boot_display_config.inc	2026-11-18 18:55:15.245641574 +0000
++++ b/stratosphere/boot/source/boot_display_config.inc	2026-11-18 18:55:15.262302964 +0000
+@@ -251,6 +251,20 @@
+     {sizeof(u32) * DSI_PHY_TIMING_0, 0x6070603},
+ };
+ 
++#if defined(AMS_CUSTOM7_PANEL_ID)
++/* Aftermarket 7" 720x1280 panel, sent after the panel ID read, before video starts.
++ * Generate the body with switch-v2-7inch/tools/init2ams.py from the vendor's init code.
++ * It must end with sleep out (0x11), a 120 ms wait and display on (0x29), as below. */
++constexpr const SleepOrRegisterWrite DisplayConfigCustom7SpecificInit01[] = {
++    /* Vendor init code goes here. */
++    {SleepOrRegisterWriteKind_Write, DSI_WR_DATA, 0x1105},
++    {SleepOrRegisterWriteKind_Write, DSI_TRIGGER, DSI_TRIGGER_HOST},
++    {SleepOrRegisterWriteKind_Sleep, 120, 0},
++    {SleepOrRegisterWriteKind_Write, DSI_WR_DATA, 0x2905},
++    {SleepOrRegisterWriteKind_Write, DSI_TRIGGER, DSI_TRIGGER_HOST},
++};
++#endif
++
+ constexpr const SleepOrRegisterWrite DisplayConfigJdiSpecificInit01[] = {
+     {SleepOrRegisterWriteKind_Write, DSI_WR_DATA, 0x439},
+     {SleepOrRegisterWriteKind_Write, DSI_WR_DATA, 0x9483FFB9},
