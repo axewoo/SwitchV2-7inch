@@ -58,3 +58,13 @@ Consequence for the new panel: the Raystar WTIMV70E-01 is also one anode and one
 wants about 21 V (18 LEDs, likely 6 series x 3 parallel) at 60 mA. The wiring maps 1:1. Whether
 the V2 driver works depends on its boost's overvoltage limit and its set current: identify the
 backlight driver chip (near this connector) and read its datasheet.
+
+### Backlight driver (unconfirmed)
+
+A repair forum thread names the V1/V2 backlight driver as a TI TPS61163A (marking "8316"), on
+the back side of the mainboard, opposite the backlight connector. That is a single-string WLED
+boost driver with a 40 V switch and roughly 38 V overvoltage limit (up to about 10 LEDs in
+series), so ~21 V for the Raystar panel is within range. LED current is set by the resistor on
+its FB pin; read that resistor to know the stock current. To confirm: check the marking on the
+back side. The small QFN next to the connector (marking roughly "T451 / 118 / AUSV") is not it.
+Source: https://www.tronicsfixforum.com/t/switch-with-no-backlight-no-enable-signal-at-the-ic/8572
