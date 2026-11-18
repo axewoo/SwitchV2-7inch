@@ -33,3 +33,27 @@ pressure, and confirm the connector and its total pin count with a close-up phot
 The ground, pair, pair, ground pattern is the usual layout for MIPI DSI lanes. Identical
 readings of about 0.28 V point to the same kind of pin on the SoC (DSI pads). Four data lanes
 plus the clock need five pairs, so expect the pattern to continue for several more pins.
+
+## Backlight connector (separate from the picture connector)
+
+Confirmed 2026-11-18: the backlight has its own small white 4-pin ZIF connector just above the
+speaker (narrow flex with yellow tape). With the picture board-to-board flex unplugged the
+backlight still lights; with this one unplugged it does not.
+
+Readings against ground, console on at the modchip's "no SD card" screen (brightness level
+unknown):
+
+| Pin | Volts | Likely |
+|---|---|---|
+| 1 | 0 | LED cathode (string return to the driver) or ground: check continuity to ground, console off |
+| 2 | 0 | same |
+| 3 | 16.4 | LED anode (boost output) |
+| 4 | 0 | same as 1 |
+
+16.4 V / about 3.0-3.1 V per white LED gives about 5 LEDs in series per string (6 if the current
+was low). Re-measure at full brightness in HOS to firm this up. If pins 1, 2 and 4 are separate
+cathodes (not tied to ground), the stock driver runs 3 strings, each with its own current sink.
+
+Consequence for the new panel: the Raystar WTIMV70E-01 wants about 21 V across its LED strings
+(18 LEDs). Whether the V2 boost can reach 21 V, and how its per-string sinks map onto the new
+panel's LED pins, decides if the stock driver can be reused.
