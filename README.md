@@ -45,7 +45,8 @@ both places below.
    off** (`FinalizeDisplay`: sleep in, rails off).
    An unknown panel ID falls into the `default` case, which only sends sleep out (0x11)
    and display on (0x29).
-2. **nvservices** (closed source, sysmodule 0100000000000019) powers the panel up again for
+2. **nvservices** (closed source, sysmodule 0100000000000019; notes for 22.5.0 in
+   [docs/nvservices-22.5.0.md](docs/nvservices-22.5.0.md)) powers the panel up again for
    HOS, and handles sleep, wake and brightness. Because boot turns the panel off, nvservices
    must hold its own init code, so **this is the part that matters most**. It needs IPS
    patches per firmware build ID. Not reverse-engineered yet.
