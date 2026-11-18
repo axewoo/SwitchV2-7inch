@@ -43,17 +43,18 @@ backlight still lights; with this one unplugged it does not.
 Readings against ground, console on at the modchip's "no SD card" screen (brightness level
 unknown):
 
-| Pin | Volts | Likely |
-|---|---|---|
-| 1 | 0 | LED cathode (string return to the driver) or ground: check continuity to ground, console off |
-| 2 | 0 | same |
-| 3 | 16.4 | LED anode (boost output) |
-| 4 | 0 | same as 1 |
+| Pin | Volts | Continuity to ground (console off) | Role |
+|---|---|---|---|
+| 1 | 0 | beeps | ground |
+| 2 | 0 | no beep | LED cathode (return into the driver's current sink) |
+| 3 | 16.4 | no beep | LED anode (boost output) |
+| 4 | 0 | beeps | ground |
 
-16.4 V / about 3.0-3.1 V per white LED gives about 5 LEDs in series per string (6 if the current
-was low). Re-measure at full brightness in HOS to firm this up. If pins 1, 2 and 4 are separate
-cathodes (not tied to ground), the stock driver runs 3 strings, each with its own current sink.
+The flex itself has 3 traces, so the stock backlight is one anode and one cathode: a single
+string, or parallel strings joined on the panel. 16.4 V at about 3.0-3.1 V per white LED means
+about 5 LEDs in series (6 if the current was low), with the series groups possibly in parallel.
 
-Consequence for the new panel: the Raystar WTIMV70E-01 wants about 21 V across its LED strings
-(18 LEDs). Whether the V2 boost can reach 21 V, and how its per-string sinks map onto the new
-panel's LED pins, decides if the stock driver can be reused.
+Consequence for the new panel: the Raystar WTIMV70E-01 is also one anode and one cathode, but
+wants about 21 V (18 LEDs, likely 6 series x 3 parallel) at 60 mA. The wiring maps 1:1. Whether
+the V2 driver works depends on its boost's overvoltage limit and its set current: identify the
+backlight driver chip (near this connector) and read its datasheet.
