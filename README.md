@@ -4,6 +4,9 @@ Goal: put a 7" 16:9 panel in a Switch V2 (HAC-001(-01), Mariko, "Iowa") that run
 (hardware modchip), and teach the system software to drive it. No bridge or FPGA board.
 Started 2026-11-18.
 
+Target console: firmware **22.5.0**, Atmosphère **1.11.2**. The boot patch applies cleanly to
+the Atmosphère `1.11.2` tag; nvservices patches must match the 22.5.0 nvservices build ID.
+
 ## What fits
 
 * A 7.0" 16:9 module is about 89 x 161 mm. That is the Switch OLED's screen size, in about
@@ -81,10 +84,11 @@ ideally with an HX8394, ideally with OTP init.
 
 ## What needs Axel's hands
 
-1. The brother's firmware version (nvservices patches are per build).
-2. `nvs_exefs/main` from a dump of that firmware (the `extract_vi_nvs.bat` from the 1440p
-   work does it). If it's 21.2, the old dump from the OLED works: nvservices is one binary
-   for every model.
+1. ~~The brother's firmware version~~: 22.5.0, Atmosphère 1.11.2.
+2. nvservices' ExeFS (`main`, title 0100000000000019) from 22.5.0. The 21.2 dump from the
+   OLED is the wrong build. Dump it on the brother's console: Lockpick_RCM (from hekate)
+   for 22.5.0 keys, then extract it as in the 1440p work, or dump the system title's ExeFS
+   with nxdumptool.
 3. With the stock screen unplugged: measure the V2 screen connector against ground with a
    multimeter, console on, for each pin (V2 connector is the mainboard side of the LCD FPC).
    Mark which pins carry ~1.8 V, ~+5.5 V, ~-5.5 V, the backlight anode voltage, and which
