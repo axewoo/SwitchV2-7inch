@@ -69,10 +69,12 @@ its FB pin; read that resistor to know the stock current. To confirm: check the 
 back side. The small QFN next to the connector (marking roughly "T451 / 118 / AUSV") is not it.
 Source: https://www.tronicsfixforum.com/t/switch-with-no-backlight-no-enable-signal-at-the-ic/8572
 
-## Picture connector: pin count (2026-11-18, from a photo of the flex tail)
+## Picture connector: pin count (2026-11-18, from photos of both sides of the flex tail)
 
-The screen's picture flex ends in a gold finger tail that goes into the wide ZIF connector on
-the mainboard (left of the SoC shield). The tail has about 54 fingers, laid out staggered (a
-long and a short pad alternating). Repair shops sell a "Nintendo Switch LCD FPC Connector
-(56 Pin)" as the replacement part, so the count is very likely **56**. The small two-row
-board-to-board socket near the backlight connector is not the picture connector.
+The screen's picture flex (mesh-shielded) ends in a **54-pin board-to-board plug**: two rows of
+27, the stiffener marked with a triangle and "1" at one end and "53" at the other (odd pins on
+one row, even on the other, so pin 2 sits beside pin 1 and 54 beside 53). The other face of the
+same tail shows the fan-out of about 54 pads, which agrees.
+
+The first multimeter pass (pins 1 to 24+ above) most likely walked along one row of the socket's
+legs from one end. The next pass should note the row and which end is next to the triangle.
