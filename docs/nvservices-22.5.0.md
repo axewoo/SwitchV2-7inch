@@ -20,7 +20,8 @@ sends. They are arrays of 0x40-byte entries. What each entry holds, as far as we
 | +0x24 | 0xFFFFFFFF marks a delay |
 | +0x28 | delay after the packet, in ms |
 
-Tables found (same sequences as Atmosphère's `boot_display.cpp`):
+Groups found (same sequences as Atmosphère's `boot_display.cpp`). Each group ends with a delay
+entry whose byte +0x19 is 1:
 
 | Start | Sequence | Matches |
 |---|---|---|
@@ -44,18 +45,41 @@ must accept these timings, or this descriptor is patched too.
 The structure just before it (0xECEA0) points to the first init table (0xED0D0) and the first
 shutdown table (0xED690).
 
-## Why this matters
+## How nvservices picks a table (FUN_0003ADB0, panel power-on)
 
-* The default table (sleep out, display on) exists in nvservices as well as in boot. A panel
-  whose init code is burned into its driver chip's OTP is likely to work with **no patch**,
-  if nvservices picks the default table for an unknown panel ID the way boot does.
-  Not confirmed yet: the code that picks a table by panel ID hasn't been found.
-* The tables are plain data. A custom panel can probably be supported with an IPS patch that
-  rewrites one table's entries (and points them at new parameter bytes), without changing code.
-  Atmosphère applies exefs patches to the decompressed image, so these offsets apply directly
-  (IPS offsets add the 0x100 NSO header).
+1. Sends DCS read 0x04 and keeps the 3 reply bytes: `vendor`, `model`, `board`.
+2. If the read fails, it uses a fallback ID: Samsung OLED on an Aula console, else InnoLux
+   (`board` 0x10 on Hoag, else 0x0F).
+3. Turns `vendor` into a variant number:
 
-## Still to do
+| `vendor` byte | `board` | Variant | Init entries used (index into the 0x20-byte array at 0xED0D0) |
+|---|---|---|---|
+| 0x20 (InnoLux) | not 0x10 | 1 | 0-8: InnoLux 6.2" sequence |
+| 0x30 (AUO) | not 0x10 | 2 | 8-16: AUO 6.2" sequence |
+| 0x20 (InnoLux) | 0x10 | 3 | 16-20: **default** (11, wait 120, 29) |
+| 0x30 (AUO) | 0x10 | 4 | 16-20: default |
+| 0x40 (Sharp) | any | 5 | 16-20: default |
+| 0x50 (Samsung) | any | 6 | 20-28: Samsung OLED sequence |
+| anything else (JDI 0x10, unknown) | any | 0 | 28-42: **JDI sequence** |
 
-* Find the code that reads the panel ID and picks a table (and what it does for an unknown ID).
-* Check how many entries each table may hold (the count the code passes with the pointer).
+   The start and end indexes come from two arrays in rodata: start at 0xBE680 = {0, 8, 16, 16,
+   16, 20}, end at 0xBE668 = {8, 16, 20, 20, 20, 28}, for variants 1 to 6. Variant 0 is
+   hardcoded as 0x1C to 0x2A. The walk also stops at a delay entry whose byte +0x19 is 1.
+4. The variant is kept (0x5B51FF) and picks the shutdown sequence later (FUN_0003B940).
+
+Atmosphère's boot module agrees: vendor 0x40 and unknown IDs go to its `default` case.
+
+## What this means for a new panel
+
+* **An unknown panel ID gets the JDI sequence, not the default one.** JDI's sequence is Himax
+  HX8394 commands (B9, BD, D8, D9) followed by sleep out and display on. On a panel with a
+  different driver chip those writes may be ignored or may set wrong registers.
+* **No-patch route:** a panel whose init code is in its driver chip's OTP **and** whose ID
+  bytes read back as vendor **0x40** (board 0x0F) gets only sleep out + display on, in both
+  boot and nvservices. Many driver chips let the factory program the ID bytes along with
+  the OTP init.
+* **Patch route (data only):** for an unknown ID, rewrite the JDI group (entries 28-41 at
+  0xED450, 14 entries) with the new panel's sequence and point its long writes at new
+  parameter bytes. A sequence longer than 14 entries needs the variant-0 indexes (hardcoded
+  in FUN_0003ADB0) changed too. Atmosphère applies exefs patches to the decompressed image,
+  so IPS offsets are these offsets + 0x100 (NSO header).
