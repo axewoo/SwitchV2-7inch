@@ -106,3 +106,18 @@ ideally with an HX8394, ideally with OTP init.
 3. Design the adapter flex: V2 connector to the panel's connector (DSI pairs as 100 ohm
    differential, power, backlight, reset).
 4. Fill in the boot table, then the nvservices patch, then test.
+
+## Prior art (checked 2026-11-18)
+
+* **Retro Remake SUPER5 / SUPER7** (commercial kits, V1/V2 and OLED): sold to unmodded consoles,
+  so they work on stock HOS with no patch. The l4t-community Linux work
+  ([Lakka PR #2254](https://github.com/libretro/Lakka-LibreELEC/pull/2254)) lists their panel IDs
+  in hekate's format (board byte << 8 | vendor byte): SUPER5 OLED 0x10E0 / 0x10E1, SUPER7 IPS and
+  OLED on Icosa/Iowa 0x0FE0 / 0x0FE1, SUPER7 OLED on Aula 0x20E0 / 0x20E1 (e1 = native
+  1080x1920). Vendor 0xE0 is unknown to nvservices 22.5.0, so these panels get the JDI (Himax)
+  init and simply cope with it: their own board or chip takes the stock 720x1280 DSI stream.
+  Init code and chip are not public.
+* **Spare-part clone panels**: hekate knows `PANEL_OEM_CLONE_6_2` (ID 0x0F83, reads `[83] 94 [0F]`,
+  "JDI like"). Vendor 0x83 also lands on the JDI path, and these clones work in HOS unpatched.
+* Both show the same thing: a panel that accepts the JDI/HX8394 sequence and the stock timings
+  needs **no nvservices patch at all**. No public DIY 7" Route A build was found.
