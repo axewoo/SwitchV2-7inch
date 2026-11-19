@@ -1,6 +1,6 @@
 # Switch V2 screen connector (mainboard side)
 
-First pass (2026-11-18): Axel probed the **even row** of the 54-pin socket, starting at the
+First pass (2026-11-18): Axel probed the **even side** (solder tails) of the ~54-pin ZIF, starting at the
 triangle (pin 1) end, so pass position n is pin 2n. The odd row is still to measure.
 
 Diode-mode readings, red probe on ground, black probe on the pin, battery and screen
@@ -29,7 +29,7 @@ unplugged. Measured by Axel on 2026-11-18 (pins 1-14; pin 6 read 0.279 on the se
 | 23-24+ | 46-48+ | OL | "I think the rest are OL" |
 
 **Update (2026-11-19):** the even row shows 5 DSI-like pins (2, 6, 8, 12, 14). A 4-lane link needs
-10, so the other 5 are very likely on the odd row next to them (pins 1-15), with pin 2's partner
+10, so the other 5 are very likely on the odd side next to them (pins 1-15), with pin 2's partner
 there too.
 
 **Doubt (2026-11-18):** a 4-lane DSI link needs 10 DSI pins, and only 4 to 7 have shown up.
@@ -76,12 +76,15 @@ its FB pin; read that resistor to know the stock current. To confirm: check the 
 back side. The small QFN next to the connector (marking roughly "T451 / 118 / AUSV") is not it.
 Source: https://www.tronicsfixforum.com/t/switch-with-no-backlight-no-enable-signal-at-the-ic/8572
 
-## Picture connector: pin count (2026-11-18, from photos of both sides of the flex tail)
+## Picture connector: type and pin count (corrected 2026-11-19)
 
-The screen's picture flex (mesh-shielded) ends in a **54-pin board-to-board plug**: two rows of
-27, the stiffener marked with a triangle and "1" at one end and "53" at the other (odd pins on
-one row, even on the other, so pin 2 sits beside pin 1 and 54 beside 53). The other face of the
-same tail shows the fan-out of about 54 pads, which agrees.
+The screen's picture flex ends in a **ZIF tail**: gold contact pads on one face (about 54,
+staggered long/short), a brown stiffener on the other face printed with a triangle and "1" at one
+end and "53" near the other. It goes into the long single-row ZIF connector on the mainboard,
+beside the game-card area, with a triangle printed on the board at its pin 1 end. (An earlier
+note called it a 2 x 27 board-to-board plug; that was wrong.) Shops sell a "Nintendo Switch LCD
+FPC connector (56 pin)", so 54-56 contacts; to be confirmed when the odd side is probed.
 
-The first multimeter pass (pins 1 to 24+ above) most likely walked along one row of the socket's
-legs from one end. The next pass should note the row and which end is next to the triangle.
+At this fine pitch the connector's solder tails alternate sides: odd pins come out on one long
+side, even pins on the other. Axel's first pass walked the side away from the triangle mark,
+starting at the triangle end, which we take as the even pins (position n = pin 2n).
