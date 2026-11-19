@@ -88,3 +88,27 @@ FPC connector (56 pin)", so 54-56 contacts; to be confirmed when the odd side is
 At this fine pitch the connector's solder tails alternate sides: odd pins come out on one long
 side, even pins on the other. Axel's first pass walked the side away from the triangle mark,
 starting at the triangle end, which we take as the even pins (position n = pin 2n).
+
+## Odd side, first readings (2026-11-19)
+
+Same diode mode setup, solder tails on the triangle side, from the triangle end (position n =
+pin 2n-1). "No trace" = the leg has no visible trace on the board and reads OL.
+
+| Pass position | Pin | Reading |
+|---|---|---|
+| 1 | 1 | ground |
+| 2 | 3 | no trace |
+| 3 | 5 | no trace |
+| 4 | 7 | ground |
+| 5 | 9 | no trace |
+| 6 | 11 | no trace |
+| 7 | 13 | trace, OL |
+| 8 | 15 | no trace |
+| 9 | 17 | trace, OL |
+| 10 | 19 | ground |
+| 11 | 21 | trace, OL |
+
+So far the odd side carries grounds and a few lines that read OL in diode mode. OL on a line
+with a trace usually means a supply or switched output with no diode path to ground while the
+console is off (for example the panel's +/-5.5 V bias outputs). These need a powered pass: DC
+volts, flex plugged in, console on at the boot/no-SD screen, probing the solder tails.
