@@ -132,3 +132,9 @@ That is **5 DSI pairs (2-3, 5-6, 8-9, 11-12, 14-15), each between grounds (1, 4,
 4 data lanes plus the clock lane, as Atmosphère's DSI setup says. Which pair is the clock is not
 known yet. Next: a powered pass (DC volts, flex plugged in, console on)
 on pins 17-27, 44, 47 and 49, to tell the 1.8 V supply, the bias rails and reset apart.
+
+## Powered pass (2026-11-19, DC volts, screen plugged in, console on at the no-SD screen)
+
+| Pin | Volts |
+|---|---|
+| 18 | 1.82 (1.8 V logic: reset or the 1.8 V I/O feed) |
