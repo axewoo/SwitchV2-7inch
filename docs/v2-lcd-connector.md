@@ -97,7 +97,7 @@ mistake in continuity mode and is discarded.
 
 | Pin | 1 | 3 | 5 | 7 | 9 | 11 | 13 | 15 | 17 | 19 | 21 | 23 | 25 | 27 | 29+ |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Reading | GND | 0.282 | GND | GND | 0.256 | 0.281 | GND | 0.282 | 0.330 | 0.330 | GND | GND | 0.650 | 0.650 | OL (one non-OL reading near the far end, value to get) |
+| Reading | GND | 0.282 | 0.272 (re-check) | GND | 0.256 | 0.281 | GND | 0.282 | 0.330 | 0.330 | GND | GND | 0.650 | 0.650 | OL (one non-OL reading near the far end, value to get) |
 
 ## Both sides combined, in flex order
 
@@ -105,8 +105,8 @@ mistake in continuity mode and is discarded.
 |---|---|---|
 | 1 | GND | ground |
 | 2, 3 | 0.278, 0.282 | DSI pair |
-| 4, 5 | GND, GND | ground |
-| 6 | 0.279 | DSI (its partner is probably 5 or 7, one of which may have been miscounted) |
+| 4 | GND | ground |
+| 5, 6 | 0.272, 0.279 | DSI pair (pin 5 re-checked: first odd-side pass misread it as ground) |
 | 7 | GND | ground |
 | 8, 9 | 0.279, 0.256 | DSI pair |
 | 10 | GND | ground |
@@ -119,6 +119,7 @@ mistake in continuity mode and is discarded.
 | 25, 26, 27 | 0.650, 0.630, 0.650 | supply rails (likely the 1.8 V I/O supply, maybe split) |
 | 28-54 | mostly OL | not used, or rails with no diode path when off (the +/-5.5 V bias); pin 44 read 0.840 |
 
-That is 9 DSI-like pins in ground-separated pairs: 4 data lanes plus clock = 10, so one pin of
-the pair at 5/6/7 is likely misread. Next: a powered pass (DC volts, flex plugged in, console on)
+That is **5 DSI pairs (2-3, 5-6, 8-9, 11-12, 14-15), each between grounds (1, 4, 7, 10, 13, 16)**:
+4 data lanes plus the clock lane, as Atmosphère's DSI setup says. Which pair is the clock is not
+known yet. Next: a powered pass (DC volts, flex plugged in, console on)
 on pins 17-27, 44 and the far-end pin, to tell the 1.8 V supply, the bias rails and reset apart.
