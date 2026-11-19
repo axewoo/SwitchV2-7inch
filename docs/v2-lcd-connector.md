@@ -97,7 +97,7 @@ mistake in continuity mode and is discarded.
 
 | Pin | 1 | 3 | 5 | 7 | 9 | 11 | 13 | 15 | 17 | 19 | 21 | 23 | 25 | 27 | 29+ |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Reading | GND | 0.282 | 0.272 (re-check) | GND | 0.256 | 0.281 | GND | 0.282 | 0.330 | 0.330 | GND | GND | 0.650 | 0.650 | OL (one non-OL reading near the far end, value to get) |
+| Reading | GND | 0.282 | 0.282 (re-check) | GND | 0.256 | 0.281 | GND | 0.282 | 0.330 | 0.330 | GND | GND | 0.650 | 0.650 | OL (one non-OL reading near the far end, value to get) |
 
 ## Both sides combined, in flex order
 
@@ -106,7 +106,7 @@ mistake in continuity mode and is discarded.
 | 1 | GND | ground |
 | 2, 3 | 0.278, 0.282 | DSI pair |
 | 4 | GND | ground |
-| 5, 6 | 0.272, 0.279 | DSI pair (pin 5 re-checked: first odd-side pass misread it as ground) |
+| 5, 6 | 0.282, 0.279 | DSI pair (pin 5 re-checked: first odd-side pass misread it as ground) |
 | 7 | GND | ground |
 | 8, 9 | 0.279, 0.256 | DSI pair |
 | 10 | GND | ground |
