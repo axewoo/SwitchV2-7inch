@@ -89,26 +89,36 @@ At this fine pitch the connector's solder tails alternate sides: odd pins come o
 side, even pins on the other. Axel's first pass walked the side away from the triangle mark,
 starting at the triangle end, which we take as the even pins (position n = pin 2n).
 
-## Odd side, first readings (2026-11-19)
+## Odd side (2026-11-19, diode mode)
 
-Same diode mode setup, solder tails on the triangle side, from the triangle end (position n =
-pin 2n-1). "No trace" = the leg has no visible trace on the board and reads OL.
+Same setup as the even side (diode mode, red on ground, black on the pin), solder tails on the
+triangle side, from the triangle end (position n = pin 2n-1). An earlier pass the same day was by
+mistake in continuity mode and is discarded.
 
-| Pass position | Pin | Reading |
+| Pin | 1 | 3 | 5 | 7 | 9 | 11 | 13 | 15 | 17 | 19 | 21 | 23 | 25 | 27 | 29+ |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Reading | GND | 0.282 | GND | GND | 0.256 | 0.281 | GND | 0.282 | 0.330 | 0.330 | GND | GND | 0.650 | 0.650 | OL (one non-OL reading near the far end, value to get) |
+
+## Both sides combined, in flex order
+
+| Pin | Reading | Likely role |
 |---|---|---|
-| 1 | 1 | ground |
-| 2 | 3 | no trace |
-| 3 | 5 | no trace |
-| 4 | 7 | ground |
-| 5 | 9 | no trace |
-| 6 | 11 | no trace |
-| 7 | 13 | trace, OL |
-| 8 | 15 | no trace |
-| 9 | 17 | trace, OL |
-| 10 | 19 | ground |
-| 11 | 21 | trace, OL |
+| 1 | GND | ground |
+| 2, 3 | 0.278, 0.282 | DSI pair |
+| 4, 5 | GND, GND | ground |
+| 6 | 0.279 | DSI (its partner is probably 5 or 7, one of which may have been miscounted) |
+| 7 | GND | ground |
+| 8, 9 | 0.279, 0.256 | DSI pair |
+| 10 | GND | ground |
+| 11, 12 | 0.281, 0.278 | DSI pair |
+| 13 | GND | ground |
+| 14, 15 | 0.278, 0.282 | DSI pair |
+| 16 | GND | ground |
+| 17-20, 22 | 0.322-0.330 | logic lines (reset, panel ID/TE, maybe I2C or touch reset): a different pad type from DSI |
+| 21, 23, 24 | GND | ground |
+| 25, 26, 27 | 0.650, 0.630, 0.650 | supply rails (likely the 1.8 V I/O supply, maybe split) |
+| 28-54 | mostly OL | not used, or rails with no diode path when off (the +/-5.5 V bias); pin 44 read 0.840 |
 
-So far the odd side carries grounds and a few lines that read OL in diode mode. OL on a line
-with a trace usually means a supply or switched output with no diode path to ground while the
-console is off (for example the panel's +/-5.5 V bias outputs). These need a powered pass: DC
-volts, flex plugged in, console on at the boot/no-SD screen, probing the solder tails.
+That is 9 DSI-like pins in ground-separated pairs: 4 data lanes plus clock = 10, so one pin of
+the pair at 5/6/7 is likely misread. Next: a powered pass (DC volts, flex plugged in, console on)
+on pins 17-27, 44 and the far-end pin, to tell the 1.8 V supply, the bias rails and reset apart.
