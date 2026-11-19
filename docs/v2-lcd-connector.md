@@ -1,29 +1,36 @@
 # Switch V2 screen connector (mainboard side)
 
-Diode-mode readings, red probe on ground, black probe on the pin, battery and screen
-unplugged. Measured by Axel on 2026-11-18 (pins 1-14; pin 6 read 0.279 on the second pass). Pin 1 position still to confirm with a close-up.
+First pass (2026-11-18): Axel probed the **even row** of the 54-pin socket, starting at the
+triangle (pin 1) end, so pass position n is pin 2n. The odd row is still to measure.
 
-| Pin | Reading | Reading suggests |
-|---|---|---|
-| 1 | 0.278 | signal; same reading as the DSI pins, so probably half of a pair whose other half is off the measured range, or a lone DSI line |
-| 2 | 0.000 | ground |
-| 3 | 0.279 | DSI pair A (+/-) |
-| 4 | 0.279 | DSI pair A |
-| 5 | 0.000 | ground |
-| 6 | 0.278 | DSI pair B |
-| 7 | 0.278 | DSI pair B |
-| 8 | 0.000 | ground |
-| 9 | 0.322 | signal, different kind from the DSI pins (logic line or a different pad type) |
-| 10 | 0.322 | same as 9 |
-| 11 | 0.322 | same as 9 |
-| 12 | 0.000 | ground |
-| 13 | 0.630 | supply rail or control line (higher reading = fewer diode paths, typical for a power pin) |
-| 14 | OL (confirmed on second pass) | not connected, or a pin isolated by an off switch (for example backlight or bias output) |
-| 15-18 | OL | |
-| 19 | 0.000 | ground |
-| 20-21 | OL | |
-| 22 | 0.840 | (count uncertain: the pass restarted at 21 right after this pin) |
-| 23-24+ | OL | "I think the rest are OL" |
+Diode-mode readings, red probe on ground, black probe on the pin, battery and screen
+unplugged. Measured by Axel on 2026-11-18 (pins 1-14; pin 6 read 0.279 on the second pass).
+
+| Pass position | Pin (even row, from the triangle end) | Reading | Reading suggests |
+|---|---|---|---|
+| 1 | 2 | 0.278 | signal; same reading as the DSI pins, so probably half of a pair whose other half is off the measured range, or a lone DSI line |
+| 2 | 4 | 0.000 | ground |
+| 3 | 6 | 0.279 | DSI pair A (+/-) |
+| 4 | 8 | 0.279 | DSI pair A |
+| 5 | 10 | 0.000 | ground |
+| 6 | 12 | 0.278 | DSI pair B |
+| 7 | 14 | 0.278 | DSI pair B |
+| 8 | 16 | 0.000 | ground |
+| 9 | 18 | 0.322 | signal, different kind from the DSI pins (logic line or a different pad type) |
+| 10 | 20 | 0.322 | same as 9 |
+| 11 | 22 | 0.322 | same as 9 |
+| 12 | 24 | 0.000 | ground |
+| 13 | 26 | 0.630 | supply rail or control line (higher reading = fewer diode paths, typical for a power pin) |
+| 14 | 28 | OL (confirmed on second pass) | not connected, or a pin isolated by an off switch (for example backlight or bias output) |
+| 15-18 | 30-36 | OL | |
+| 19 | 38 | 0.000 | ground |
+| 20-21 | 40-42 | OL | |
+| 22 | 44 | 0.840 | (count uncertain: the pass restarted at 21 right after this pin) |
+| 23-24+ | 46-48+ | OL | "I think the rest are OL" |
+
+**Update (2026-11-19):** the even row shows 5 DSI-like pins (2, 6, 8, 12, 14). A 4-lane link needs
+10, so the other 5 are very likely on the odd row next to them (pins 1-15), with pin 2's partner
+there too.
 
 **Doubt (2026-11-18):** a 4-lane DSI link needs 10 DSI pins, and only 4 to 7 have shown up.
 A long run of OL usually means the probe isn't touching the contact (FPC contacts sit recessed
